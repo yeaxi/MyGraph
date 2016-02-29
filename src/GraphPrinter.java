@@ -64,7 +64,7 @@ public class GraphPrinter extends JFrame {
     private void fillingVertexesForPrinting() {
         for (Vertex vertex : graphProcessor.list) {
             vertexes.put(vertex, graph.insertVertex(parent, null, vertex.name, xCord, yCord, 30, 30));
-            xCord = (int) (xCord + Math.random() * 200) - 100;
+            xCord = (int) (xCord + Math.random() * 200) - 50;
             yCord = (int) (yCord + Math.random() * 300) - 60;
         }
     }
