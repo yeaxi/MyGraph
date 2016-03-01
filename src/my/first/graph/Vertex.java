@@ -1,11 +1,14 @@
+package my.first.graph;
+
 import java.util.ArrayList;
 
 /**
  * Created by RASTA on 29.02.2016.
+ * Class - structure.
  */
-public class Vertex {
-    int number;
-    char name;
+class Vertex {
+    private int number;
+    private char name;
     ArrayList<Vertex> edges = new ArrayList<Vertex>();
 
     public Vertex(int number, char name) {
@@ -13,9 +16,17 @@ public class Vertex {
         this.name = name;
     }
 
+    public int getNumber() {
+        return number;
+    }
+
+    public char getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "Vertex{" +
+        return "undirected.graph.Vertex{" +
                 "name=" + name +
                 ", number=" + number +
                 '}';
