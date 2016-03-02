@@ -57,7 +57,7 @@ public class GraphPrinter extends JFrame {
         getContentPane().add(graphComponent);
     }
 
-    public void addVertexes() {
+    private void addVertexes() {
         System.out.print("Enter amount of vertexes: ");
         int amount = scn.nextInt();
         for (int i = 0; i < amount; i++) {
@@ -66,7 +66,7 @@ public class GraphPrinter extends JFrame {
 
     }
 
-    public void addEdges() {
+    private void addEdges() {
         for (Vertex vertex : graphProcessor.vertexList) {
             System.out.println(vertex);
         }
@@ -86,6 +86,7 @@ public class GraphPrinter extends JFrame {
         frame.setSize(800, 600);
         frame.setVisible(true);
         frame.graphProcessor.doDfs();
+        frame.graphProcessor.doBfs();
 
     }
 }

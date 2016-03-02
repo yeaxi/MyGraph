@@ -15,7 +15,6 @@ class Vertex {
         this.number = number;
         this.name = name;
     }
-
     public int getNumber() {
         return number;
     }
@@ -26,7 +25,7 @@ class Vertex {
 
     @Override
     public String toString() {
-        return "undirected.graph.Vertex{" +
+        return "Vertex{" +
                 "name=" + name +
                 ", number=" + number +
                 '}';
