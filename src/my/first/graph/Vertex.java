@@ -1,20 +1,22 @@
 package my.first.graph;
 
-import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by RASTA on 29.02.2016.
  * Class - structure.
  */
 class Vertex {
+    Map<Vertex, Integer> edges = new HashMap<Vertex, Integer>();
     private int number;
     private char name;
-    ArrayList<Vertex> edges = new ArrayList<Vertex>();
 
     public Vertex(int number, char name) {
         this.number = number;
         this.name = name;
     }
+
     public int getNumber() {
         return number;
     }

@@ -22,24 +22,6 @@ public class GraphPrinter extends JFrame {
     private GraphProcessor graphProcessor = new GraphProcessor();
     private Scanner scn = new Scanner(System.in);
 
-    private void fillingVertexesForPrinting() {
-        for (Vertex vertex : graphProcessor.vertexList) {
-            vertexes.put(vertex, mxGraph.insertVertex(parent, null, vertex.getName() + " " + vertex.getNumber(), startXCord, startYCord, 30, 30));
-            startXCord = (int) (startXCord + Math.random() * 200) - 50;
-            startYCord = (int) (startYCord + Math.random() * 300) - 60;
-        }
-    }
-
-    private void fillingEdgesForPrinting() {
-        for (Vertex vertex : graphProcessor.vertexList) {
-            if (!vertex.edges.isEmpty()) {
-                for (Vertex child : vertex.edges) {
-                    mxGraph.insertEdge(parent, null, "", vertexes.get(vertex), vertexes.get(child));
-                }
-            }
-        }
-    }
-
     public GraphPrinter() {
         super("MyGraph");
 
@@ -57,6 +39,33 @@ public class GraphPrinter extends JFrame {
         getContentPane().add(graphComponent);
     }
 
+    public static void main(String[] args) {
+        GraphPrinter frame = new GraphPrinter();
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setVisible(true);
+        frame.graphProcessor.doDejkstra();
+
+    }
+
+    private void fillingVertexesForPrinting() {
+        for (Vertex vertex : graphProcessor.vertexList) {
+            vertexes.put(vertex, mxGraph.insertVertex(parent, null, vertex.getName() + " " + vertex.getNumber(), startXCord, startYCord, 30, 30));
+            startXCord = (int) (startXCord + Math.random() * 200) - 50;
+            startYCord = (int) (startYCord + Math.random() * 300) - 60;
+        }
+    }
+
+    private void fillingEdgesForPrinting() {
+        for (Vertex vertex : graphProcessor.vertexList) {
+            if (!vertex.edges.isEmpty()) {
+                for (Map.Entry<Vertex, Integer> child : vertex.edges.entrySet()) {
+                    mxGraph.insertEdge(parent, null, child.getValue(), vertexes.get(vertex), vertexes.get(child.getKey()));
+                }
+            }
+        }
+    }
+
     private void addVertexes() {
         System.out.print("Enter amount of vertexes: ");
         int amount = scn.nextInt();
@@ -71,22 +80,13 @@ public class GraphPrinter extends JFrame {
             System.out.println(vertex);
         }
         while (true) {
-            System.out.println("Enter index of start vertex & end vertex or write '-1' to exit: ");
+            System.out.println("Enter start vertex & end vertex & weight or write '-1' to exit: ");
             int first = scn.nextInt();
             if (first == -1) break;
             int second = scn.nextInt();
-            graphProcessor.addEdge(first, second);
+            int weight = scn.nextInt();
+            graphProcessor.addEdge(first, second, weight);
         }
-    }
-
-
-    public static void main(String[] args) {
-        GraphPrinter frame = new GraphPrinter();
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setVisible(true);
-        frame.graphProcessor.doDfs();
-        frame.graphProcessor.doBfs();
 
     }
 }
