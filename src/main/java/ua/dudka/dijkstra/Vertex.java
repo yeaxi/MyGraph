@@ -1,4 +1,4 @@
-package my.first.graph;
+package ua.dudka.dijkstra;
 
 import java.util.HashMap;
 import java.util.Map;

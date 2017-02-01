@@ -1,4 +1,4 @@
-package my.first.graph;
+package ua.dudka.dijkstra;
 
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
@@ -44,7 +44,7 @@ public class GraphPrinter extends JFrame {
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setVisible(true);
-        frame.graphProcessor.doDejkstra();
+        frame.graphProcessor.doDijkstra();
 
     }
 

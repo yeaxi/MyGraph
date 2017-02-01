@@ -1,4 +1,4 @@
-package my.first.graph;
+package ua.dudka.dijkstra;
 
 import java.util.*;
 
@@ -75,28 +75,28 @@ class GraphProcessor {
     }
 
 
-    public void doDejkstra() {
-        initDejkstra();
-        dejkstra(start);
+    public void doDijkstra() {
+        initDijkstra();
+        processDijkstra(start);
         printData();
 
     }
 
-    private void dejkstra(int s) {
+    private void processDijkstra(int s) {
         dist[s] = 0; //кратчайшее расстояние до стартовой вершины равно 0
-        for (int iter = 0; iter < vertexList.size(); ++iter) {
+        for (int i = 0; i < vertexList.size(); ++i) {
             int v = -1;
             int distV = INF;
             //выбираем вершину, кратчайшее расстояние до которого еще не найдено
-            for (int i = 0; i < vertexList.size(); ++i) {
-                if (used[i]) {
+            for (int j = 0; j < vertexList.size(); ++j) {
+                if (used[j]) {
                     continue;
                 }
-                if (distV < dist[i]) {
+                if (distV < dist[j]) {
                     continue;
                 }
-                v = i;
-                distV = dist[i];
+                v = j;
+                distV = dist[j];
             }
             //рассматриваем все дуги, исходящие из найденной вершины
 
@@ -114,7 +114,9 @@ class GraphProcessor {
         }
     }
 
-    private void initDejkstra() {
+    private int startIndex;
+
+    private void initDijkstra() {
         System.out.print("Enter number of start vertex :");
         int start = new Scanner(System.in).nextInt();
         int n = vertexList.size();
