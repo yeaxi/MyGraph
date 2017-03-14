@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Title</title>
+
+    <style type="text/css">
+        #container {
+            max-width: 250pt;
+            max-height: 250pt;
+            border-color: black;
+        }
+    </style>
+</head>
+
+<body th:inline="text" style="margin-left: 30pt">
+<div class="header" style="margin-bottom: 2%">
+
+    <form th:action="@{/dijkstra}" method="post">
+        <input type="text" name="start" title="Назва початкової вершини"/>
+        <input type="text" name="end" title="Назва кінцевої вершини"/>
+        <button type="submit">Знайти шлях</button>
+    </form>
+
+    <div class="answer" th:if="${answer}">
+        <p>Шлях - [[${path}]]</p>
+        <p>Відстань - [[${distance}]]</p>
+        <p th:if="${error}">Помилка - </p>
+    </div>
+</div>
+<br/>
+
+<div class="main" style="width: 100%;">
+    <div class="left-nav-menu" style="float: left;width: 40%">
+        <div class="control-buttons">
+            <div class="nodes">
+                <form th:action="@{/nodes/add}" method="post">
+                    <label for="add-name">Назва вершини</label>
+                    <input id="add-name" type="text" name="name"/> <br/>
+                    <button type="submit">Додати вершину</button>
+                </form>
+
+                <form th:action="@{/nodes/remove}" method="post">
+                    <label for="rm-name">Назва вершини</label>
+                    <input id="rm-name" type="text" name="name" title="Назва вершини"/> <br/>
+                    <button type="submit">Видалити вершину</button>
+                </form>
+            </div>
+            <br/>
+
+            <div class="edges">
+                <form th:action="@{/edges/add}" method="post">
+                    <input type="text" name="start" title="Назва початкової вершини"/><br/>
+                    <input type="text" name="end" title="Назва кінцевої вершини"/><br/>
+                    <input type="text" name="weight" title="Вага"/><br/>
+                    <button type="submit">Додати ребро</button>
+                </form>
+                <form th:action="@{/edges/remove}" method="post">
+                    <input type="text" name="start" title="Назва ребра"/><br/>
+                    <button type="submit">Видалили ребро</button>
+                </form>
+            </div>
+            <div class="clear">
+                <form th:action="@{/clear}" method="post">
+                    <button type="submit">Очистити граф</button>
+                </form>
+            </div>
+        </div>
+
+    </div>
+    <div id="container" style="float: right;">
+        <style>
+            #graph-container {
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 20pt;
+                position: absolute;
+            }
+        </style>
+        <div id="graph-container"></div>
+
+        <!--<p>[[${graph.nodes}]]</p>-->
+    </div>
+</div>
+
+
+<script src="sigma.min.js"></script>
+<script src="sigma.parsers.json.min.js"></script>
+<script src="settings.js"></script>
+<script src="sigma.canvas.edges.labels.def.js"></script>
+<script src="sigma.canvas.edges.labels.curve.js"></script>
+<script src="sigma.canvas.edges.labels.curvedArrow.js"></script>
+
+<script th:inline="javascript">
+    //<![CDATA[
+    /**
+     * This example shows the available edge label renderers for the canvas
+     * renderer.
+     */
+    var s = new sigma({
+        graph: /*[[${graph}]]*/ '',
+        renderer: {
+            container: document.getElementById('graph-container'),
+            type: 'canvas'
+        },
+        settings: {
+            edgeLabelSize: 'proportional'
+        }
+    });
+    //]]>
+</script>
+</body>
+</html>
