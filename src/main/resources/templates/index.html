@@ -5,10 +5,14 @@
     <title>Title</title>
 
     <style type="text/css">
-        #container {
-            max-width: 250pt;
-            max-height: 250pt;
+        #graph-container {
             border-color: black;
+            top: 100pt;
+            bottom: 20pt;
+            left: 200pt;
+            right: 0;
+            position: absolute;
+            float: right;
         }
     </style>
 </head>
@@ -16,9 +20,16 @@
 <body th:inline="text" style="margin-left: 30pt">
 <div class="header" style="margin-bottom: 2%">
 
+    <div class="help">
+        <a th:href="@{/help}">Довідка</a>
+    </div>
+
     <form th:action="@{/dijkstra}" method="post">
-        <input type="text" name="start" title="Назва початкової вершини"/>
-        <input type="text" name="end" title="Назва кінцевої вершини"/>
+        <label for="from">Назва початкової вершини</label>
+        <input id="from" type="text" name="start"/>
+        <br/>
+        <label for="to">Назва кінцевої вершини</label>
+        <input id="to" type="text" name="end" title=""/>
         <button type="submit">Знайти шлях</button>
     </form>
 
@@ -68,20 +79,9 @@
         </div>
 
     </div>
-    <div id="container" style="float: right;">
-        <style>
-            #graph-container {
-                top: 0;
-                bottom: 0;
-                left: 0;
-                right: 20pt;
-                position: absolute;
-            }
-        </style>
-        <div id="graph-container"></div>
 
-        <!--<p>[[${graph.nodes}]]</p>-->
-    </div>
+    <div id="graph-container"></div>
+
 </div>
 
 
@@ -94,10 +94,7 @@
 
 <script th:inline="javascript">
     //<![CDATA[
-    /**
-     * This example shows the available edge label renderers for the canvas
-     * renderer.
-     */
+
     var s = new sigma({
         graph: /*[[${graph}]]*/ '',
         renderer: {

@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import ua.dudka.dijkstra.model.Edge;
 import ua.dudka.dijkstra.model.Graph;
 import ua.dudka.dijkstra.model.Vertex;
+import ua.dudka.dijkstra.service.DijkstraAlgorithm;
 import ua.dudka.dijkstra.service.HomeService;
 
 import javax.annotation.PostConstruct;
@@ -15,6 +16,8 @@ public class HomeServiceImpl implements HomeService {
     private List<Vertex> nodes;
     private List<Edge> edges;
     private Graph graph;
+
+    private DijkstraAlgorithm dijkstraAlgorithm;
 
     @PostConstruct
     public void init() {
@@ -46,5 +49,15 @@ public class HomeServiceImpl implements HomeService {
     @Override
     public Graph getGraph() {
         return graph;
+    }
+
+    @Override
+    public void addNode(String name) {
+        graph.addNode(name);
+    }
+
+    @Override
+    public void removeNode(String name) {
+        graph.removeNode(name);
     }
 }

@@ -15,8 +15,8 @@ public class Vertex {
     private int id;
 
     private String name;
-    private double x = ThreadLocalRandom.current().nextDouble(0, 0.8);
-    private double y = ThreadLocalRandom.current().nextDouble(0, 0.8);
+    private double x = ThreadLocalRandom.current().nextDouble(0.4, 1.5);
+    private double y = ThreadLocalRandom.current().nextDouble(0.4, 1.5);
 
     public Vertex(String name) {
         this.name = name;
