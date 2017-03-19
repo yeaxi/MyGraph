@@ -1,101 +1,171 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="Rostislav Dudka">
+
+    <title>Алгоритм Дейкстри</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/dashboard.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
 
     <style type="text/css">
         #graph-container {
-            border: solid bisque;
             top: 100pt;
-            bottom: 20pt;
-            left: 230pt;
-            right: 40pt;
+            height: 450pt;
+            width: 95%;
             position: absolute;
-            float: right;
         }
     </style>
 </head>
 
-<body th:inline="text" style="margin-left: 30pt;">
-<div class="header" style="margin-bottom: 2%">
+<body th:inline="text">
 
-    <div class="help">
-        <a th:href="@{/help}">Довідка</a>
-    </div>
-
-    <form th:action="@{/dijkstra}" method="post">
-        <label for="from">Назва початкової вершини</label>
-        <input id="from" type="text" name="start"/>
-        <br/>
-        <label for="to">Назва кінцевої вершини</label>
-        <input id="to" type="text" name="end" title=""/>
-        <button type="submit">Знайти шлях</button>
-    </form>
-
-    <div class="answer" th:if="${answer}">
-        <p>Шлях - [[${answer.pathStr}]]</p>
-        <p>Відстань - [[${answer.distance}]]</p>
-    </div>
-    <p th:if="${error}">Помилка - [[${error}]]</p>
-</div>
-<br/>
-
-<div class="main" style="width: 100%;">
-    <div class="left-nav-menu" style="float: left;width: 40%">
-        <div class="control-buttons">
-            <div class="nodes">
-                <form th:action="@{/nodes/add}" method="post">
-                    <label for="add-name">Назва вершини</label>
-                    <input id="add-name" type="text" name="name"/> <br/>
-                    <button type="submit">Додати вершину</button>
-                </form>
-
-                <form th:action="@{/nodes/remove}" method="post">
-                    <label for="rm-name">Назва вершини</label>
-                    <input id="rm-name" type="text" name="name" title="Назва вершини"/> <br/>
-                    <button type="submit">Видалити вершину</button>
-                </form>
-            </div>
-            <br/>
-
-            <div class="edges" style="border: medium black">
-                <div class="create" style="border: solid black">
-                    <form th:action="@{/edges/add}" method="post">
-                        <label for="start">Назва початкової вершини</label>
-                        <input id="start" type="text" name="start"/><br/>
-
-                        <label for="end">Назва кінцевої вершини</label>
-                        <input id="end" type="text" name="end"/><br/>
-
-
-                        <label for="weight">Вага</label>
-                        <input id="weight" type="text" name="weight"/><br/>
-                        <button type="submit">Додати ребро</button>
-
-                    </form>
-                </div>
-                <div class="remove" style="border: solid black">
-                    <form th:action="@{/edges/remove}" method="post">
-                        <label for="edge-name">Номер ребра</label>
-                        <input id="edge-name" type="text" name="id"/><br/>
-                        <button type="submit">Видалили ребро</button>
-                    </form>
-                </div>
-            </div>
-
-            <div class="clear">
-                <form th:action="@{/clear}" method="post">
-                    <button type="submit">Очистити граф</button>
-                </form>
-            </div>
+<!--navigation-->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Алгоритм Дейкстри</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/help}">Help</a></li>
+            </ul>
         </div>
     </div>
+</nav>
+<!--end navigation-->
 
-    <div id="graph-container"></div>
+<div class="container-fluid">
+    <div class="row">
 
+        <!--left nav menu-->
+        <div class="col-sm-3 col-md-2 sidebar">
+            <form th:action="@{/nodes/add}" method="post">
+                <div class="input-group">
+                    <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
+                    <span class="input-group-btn">
+                    <button type="submit" class="btn btn-default">Додати вершину</button>
+                </span>
+                </div>
+            </form>
+            <hr/>
+
+            <form th:action="@{/edges/add}" method="post">
+                <div class="input-group">
+                    <input required="required" type="text" class="form-control" name="start"
+                           placeholder="Назва початкової вершини"
+                           aria-describedby="basic-addon1">
+
+                    <input required="required" type="text" class="form-control" name="end" placeholder="Назва кінцевої"
+                           aria-describedby="basic-addon1">
+
+                    <input required="required" type="number" class="form-control" name="weight" placeholder="Вага"
+                           aria-describedby="basic-addon1">
+
+                    <button type="submit" class="btn btn-default">Додати ребро</button>
+                </div>
+            </form>
+            <hr/>
+
+            <form th:action="@{/nodes/remove}" method="post">
+                <div class="input-group">
+                    <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
+                    <span class="input-group-btn">
+                    <button type="submit" class="btn btn-danger">Видалити вершину</button>
+                </span>
+                </div>
+            </form>
+            <hr/>
+
+            <form th:action="@{/edges/remove}" method="post">
+                <div class="input-group">
+                    <input required="required" type="text" class="form-control" name="id" placeholder="Номер">
+                    <span class="input-group-btn">
+                    <button type="submit" class="btn btn-danger">Видалити Ребро</button>
+                </span>
+                </div>
+            </form>
+            <hr/>
+
+            <form th:action="@{/clear}" method="post">
+                <div class="input-group">
+                    <button type="submit" class="btn btn-danger">Очистити граф</button>
+                </div>
+            </form>
+            <hr/>
+        </div>
+        <!--end left nav menu-->
+
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+
+            <!--header-->
+            <h1 class="page-header">Введіть задані поля</h1>
+            <!--end header-->
+
+            <!--dijkstra actions-->
+            <div class="row placeholders">
+                <form th:action="@{/dijkstra}" method="post">
+                    <div class="input-group">
+                        <input required="required" type="text" name="start" class="form-control"
+                               placeholder="Назва початкової вершини"
+                               aria-describedby="sizing-addon2">
+                        <input required="required" type="text" name="end" class="form-control"
+                               placeholder="Назва кінцевої вершини"
+                               aria-describedby="sizing-addon2">
+                        <button type="submit" class="btn btn-default">Знайти шлях</button>
+                    </div>
+                </form>
+
+                <div class="answer" th:if="${answer}">
+                    <p>Шлях - [[${answer.pathStr}]]</p>
+                    <p>Відстань - [[${answer.distance}]]</p>
+                </div>
+                <p th:if="${error}">Помилка - [[${error}]]</p>
+            </div>
+        </div>
+
+        <!--end dijkstra actions-->
+
+        <!--graph-->
+        <div id="graph-container"></div>
+        <!--end graph-->
+    </div>
+</div>
 </div>
 
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')</script>
+<script src="js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="js/ie10-viewport-bug-workaround.js"></script>
 
 <script src="sigma.min.js"></script>
 <script src="sigma.parsers.json.min.js"></script>
@@ -105,6 +175,7 @@
 <script src="sigma.canvas.edges.labels.curvedArrow.js"></script>
 <script src="sigma.plugins.dragNodes.min.js"></script>
 
+<!--Sigma script-->
 <script th:inline="javascript">
     //<![CDATA[
 
@@ -160,5 +231,6 @@
 
     //]]>
 </script>
+<!--end Sigma script-->
 </body>
 </html>
