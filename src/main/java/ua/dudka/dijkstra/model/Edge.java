@@ -11,7 +11,7 @@ public class Edge {
     private static int counter = 0;
 
     private final String type = "arrow";
-    private int id, weight, size = 25;
+    private int id, weight, size = 4;
 
     private final Vertex start, end;
 
@@ -35,7 +35,7 @@ public class Edge {
     }
 
     public String getLabel() {
-        return weight + " № :" + id;
+        return " № :" + id + ", W: " + weight;
     }
 
 }

@@ -6,18 +6,18 @@
 
     <style type="text/css">
         #graph-container {
-            border-color: black;
+            border: solid bisque;
             top: 100pt;
             bottom: 20pt;
-            left: 200pt;
-            right: 0;
+            left: 230pt;
+            right: 40pt;
             position: absolute;
             float: right;
         }
     </style>
 </head>
 
-<body th:inline="text" style="margin-left: 30pt">
+<body th:inline="text" style="margin-left: 30pt;">
 <div class="header" style="margin-bottom: 2%">
 
     <div class="help">
@@ -34,10 +34,10 @@
     </form>
 
     <div class="answer" th:if="${answer}">
-        <p>Шлях - [[${path}]]</p>
-        <p>Відстань - [[${distance}]]</p>
-        <p th:if="${error}">Помилка - </p>
+        <p>Шлях - [[${answer.pathStr}]]</p>
+        <p>Відстань - [[${answer.distance}]]</p>
     </div>
+    <p th:if="${error}">Помилка - [[${error}]]</p>
 </div>
 <br/>
 
@@ -59,25 +59,37 @@
             </div>
             <br/>
 
-            <div class="edges">
-                <form th:action="@{/edges/add}" method="post">
-                    <input type="text" name="start" title="Назва початкової вершини"/><br/>
-                    <input type="text" name="end" title="Назва кінцевої вершини"/><br/>
-                    <input type="text" name="weight" title="Вага"/><br/>
-                    <button type="submit">Додати ребро</button>
-                </form>
-                <form th:action="@{/edges/remove}" method="post">
-                    <input type="text" name="start" title="Назва ребра"/><br/>
-                    <button type="submit">Видалили ребро</button>
-                </form>
+            <div class="edges" style="border: medium black">
+                <div class="create" style="border: solid black">
+                    <form th:action="@{/edges/add}" method="post">
+                        <label for="start">Назва початкової вершини</label>
+                        <input id="start" type="text" name="start"/><br/>
+
+                        <label for="end">Назва кінцевої вершини</label>
+                        <input id="end" type="text" name="end"/><br/>
+
+
+                        <label for="weight">Вага</label>
+                        <input id="weight" type="text" name="weight"/><br/>
+                        <button type="submit">Додати ребро</button>
+
+                    </form>
+                </div>
+                <div class="remove" style="border: solid black">
+                    <form th:action="@{/edges/remove}" method="post">
+                        <label for="edge-name">Номер ребра</label>
+                        <input id="edge-name" type="text" name="id"/><br/>
+                        <button type="submit">Видалили ребро</button>
+                    </form>
+                </div>
             </div>
+
             <div class="clear">
                 <form th:action="@{/clear}" method="post">
                     <button type="submit">Очистити граф</button>
                 </form>
             </div>
         </div>
-
     </div>
 
     <div id="graph-container"></div>
@@ -91,6 +103,7 @@
 <script src="sigma.canvas.edges.labels.def.js"></script>
 <script src="sigma.canvas.edges.labels.curve.js"></script>
 <script src="sigma.canvas.edges.labels.curvedArrow.js"></script>
+<script src="sigma.plugins.dragNodes.min.js"></script>
 
 <script th:inline="javascript">
     //<![CDATA[
@@ -102,9 +115,49 @@
             type: 'canvas'
         },
         settings: {
-            edgeLabelSize: 'proportional'
+            edgeLabelSize: 'fixed',
+            defaultEdgeLabelSize: 14,
+            mouseWheelEnabled: false,
+            autoRescale: false
         }
     });
+
+    var dragListener = sigma.plugins.dragNodes(s, s.renderers[0]);
+
+    dragListener.bind('drop', function (event) {
+        let node = event.data.node;
+        post("/nodes/update", {
+            "name": node.name,
+            "x": node.x,
+            "y": node.y
+        })
+    });
+
+
+    function post(path, params) {
+        var method = "post";
+
+        // The rest of this code assumes you are not using a library.
+        // It can be made less wordy if you use one.
+        var form = document.createElement("form");
+        form.setAttribute("method", method);
+        form.setAttribute("action", path);
+
+        for (var key in params) {
+            if (params.hasOwnProperty(key)) {
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("type", "hidden");
+                hiddenField.setAttribute("name", key);
+                hiddenField.setAttribute("value", params[key]);
+
+                form.appendChild(hiddenField);
+            }
+        }
+
+        document.body.appendChild(form);
+        form.submit();
+    }
+
     //]]>
 </script>
 </body>

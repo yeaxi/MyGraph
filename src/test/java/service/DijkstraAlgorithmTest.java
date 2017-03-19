@@ -1,6 +1,7 @@
 package service;
 
 import org.junit.Test;
+import ua.dudka.dijkstra.model.Answer;
 import ua.dudka.dijkstra.model.Edge;
 import ua.dudka.dijkstra.model.Graph;
 import ua.dudka.dijkstra.model.Vertex;
@@ -16,7 +17,7 @@ public class DijkstraAlgorithmTest {
     private List<Edge> edges;
 
     @Test
-    public void testExcute() {
+    public void testExecute() {
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
         for (int i = 0; i < 11; i++) {
@@ -38,19 +39,16 @@ public class DijkstraAlgorithmTest {
         addLane("Edge_11", 1, 10, 600);
 
         Graph graph = new Graph(nodes, edges);
-        DijkstraAlgorithm dijkstra = new DijkstraAlgorithm(graph);
+        Answer answer = new DijkstraAlgorithm(graph, nodes.get(0).getName(), nodes.get(10).getName()).getAnswer();
 
-        dijkstra.execute(nodes.get(0));
 
-        List<Vertex> path = dijkstra.getPath(nodes.get(10));
+        assertFalse(answer.path.isEmpty());
 
-        assertFalse(path.isEmpty());
-
-        for (Vertex vertex : path) {
+        for (Vertex vertex : answer.path) {
             System.out.println(vertex);
         }
 
-        System.out.println("distance: " + dijkstra.getShortestDistance(nodes.get(10)));
+        System.out.println("distance: " + answer.distance);
 
     }
 
