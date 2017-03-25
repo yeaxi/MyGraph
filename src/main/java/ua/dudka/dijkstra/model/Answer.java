@@ -8,6 +8,11 @@ public class Answer {
     public final int distance;
     public final LinkedList<Vertex> path;
 
+    public Answer() {
+        distance = 0;
+        path = new LinkedList<>();
+    }
+
     public Answer(int distance, LinkedList<Vertex> path) {
         this.distance = distance;
         this.path = path;

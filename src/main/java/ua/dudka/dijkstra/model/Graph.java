@@ -2,11 +2,12 @@ package ua.dudka.dijkstra.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import ua.dudka.dijkstra.service.RandomGenerator;
 import ua.dudka.dijkstra.service.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 @Getter
 @AllArgsConstructor()
@@ -54,5 +55,27 @@ public class Graph {
     public void clear() {
         this.nodes.clear();
         this.edges.clear();
+        RandomGenerator.resetRandom();
+    }
+
+    public void fillRandomly() {
+        clear();
+        int origin = 0, bound = RandomGenerator.getRandom(4, 12);
+        IntStream.range(origin, bound)
+                .forEachOrdered(i -> nodes.add(new Vertex("N" + i)));
+
+        for (int i = origin; i <= bound + 3; i++) {
+            Vertex start = nodes.get(RandomGenerator.getRandom(origin, bound));
+            Vertex end = nodes.get(RandomGenerator.getRandom(origin, bound));
+            if (!start.equals(end)) {
+                edges.add(new Edge(start, end, RandomGenerator.getRandom(10, 100)));
+            }
+        }
+    }
+
+    public void createFrom(Graph graph) {
+        clear();
+        nodes.addAll(graph.getNodes());
+        edges.addAll(graph.getEdges());
     }
 }
