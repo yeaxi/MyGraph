@@ -3,11 +3,14 @@ package ua.dudka.dijkstra.model;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import ua.dudka.dijkstra.service.RandomGenerator;
+import ua.dudka.dijkstra.service.exception.NodeExistsException;
 import ua.dudka.dijkstra.service.exception.NotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
+
+import static ua.dudka.dijkstra.service.exception.NotFoundException.NotFoundEntity.*;
 
 @Getter
 @AllArgsConstructor()
@@ -22,10 +25,16 @@ public class Graph {
     }
 
     public void addNode(String name) {
-        nodes.add(new Vertex(name));
+        try {
+            findVertexByName(name);
+            throw new NodeExistsException(name);
+        } catch (NotFoundException e) {
+            nodes.add(new Vertex(name));
+        }
     }
 
     public void removeNode(String name) {
+        findVertexByName(name);
         nodes.removeIf(v -> v.getName().equals(name));
         edges.removeIf(e -> e.getStart().getName().equals(name) || e.getEnd().getName().equals(name));
     }
@@ -36,6 +45,8 @@ public class Graph {
     }
 
     public void addEdge(String start, String end, int weight) {
+        findVertexByName(start);
+        findVertexByName(end);
         Vertex startVertex = findVertexByName(start);
         Vertex endVertex = findVertexByName(end);
 
@@ -45,7 +56,7 @@ public class Graph {
     public Vertex findVertexByName(String name) {
         return nodes.stream()
                 .filter(n -> n.getName().equals(name))
-                .findAny().orElseThrow(NotFoundException::new);
+                .findAny().orElseThrow(() -> new NotFoundException(VERTEX, name));
     }
 
     public void removeEdge(Integer id) {

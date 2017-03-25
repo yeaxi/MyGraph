@@ -39,7 +39,7 @@ public class DijkstraAlgorithmTest {
         addLane("Edge_11", 1, 10, 600);
 
         Graph graph = new Graph(nodes, edges);
-        Answer answer = new DijkstraAlgorithm(graph, nodes.get(0).getName(), nodes.get(10).getName()).getAnswer();
+        Answer answer = new DijkstraAlgorithm().execute(graph, nodes.get(0).getName(), nodes.get(10).getName());
 
 
         assertFalse(answer.path.isEmpty());

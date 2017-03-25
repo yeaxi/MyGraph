@@ -50,11 +50,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Алгоритм Дейкстри</a>
+            <a class="navbar-brand" th:href="@{/}">Головна</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/help}">Help</a></li>
+                <li><a th:href="@{/help}">Довідка</a></li>
+                <li><a th:href="@{/about-developer}">Про розробника</a></li>
+                <!--<li><a th:href="@{/help}">Help</a></li>-->
             </ul>
         </div>
     </div>
@@ -66,7 +68,7 @@
 
         <!--left nav menu-->
         <div class="col-sm-4 col-md-2 sidebar">
-            <form th:action="@{/nodes/add}" method="post">
+            <form th:action="@{/add-node}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
                     <span class="input-group-btn">
@@ -76,7 +78,7 @@
             </form>
             <hr/>
 
-            <form th:action="@{/edges/add}" method="post">
+            <form th:action="@{/add-edge}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="start"
                            placeholder="Назва початкової вершини"
@@ -109,7 +111,7 @@
             </form>
             <hr/>
 
-            <form th:action="@{/nodes/remove}" method="post">
+            <form th:action="@{/remove-node}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
                     <span class="input-group-btn">
@@ -119,7 +121,7 @@
             </form>
             <hr/>
 
-            <form th:action="@{/edges/remove}" method="post">
+            <form th:action="@{/remove-edge}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="id" placeholder="Номер">
                     <span class="input-group-btn">
@@ -174,15 +176,10 @@
                         </div>
                     </div>
                     <!--End answer-->
-
-                    <!--Error-->
-                    <div class="alert alert-danger" role="alert" th:if="${error}">Помилка - [[${error}]]</div>
-
-                    <span class="label label-danger" th:if="${error}">Помилка - [[${error}]]</span>
-                    <!--End error-->
                 </div>
                 <!--End dijkstra actions-->
 
+                <div class="alert alert-danger" role="alert" th:if="${error}">Помилка - [[${error}]]</div>
             </div>
             <!--End main-->
         </div>
@@ -251,7 +248,7 @@
 
     dragListener.bind('drop', function (event) {
         let node = event.data.node;
-        post("/nodes/update", {
+        post("/update-node", {
             "name": node.name,
             "x": node.x,
             "y": node.y
