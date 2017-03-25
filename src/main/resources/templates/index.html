@@ -101,13 +101,11 @@
             <hr/>
 
 
-            <form th:action="@{/file/uplaod}" method="post">
-                <div class="input-group">
-                    <input required="required" type="file" class="form-control" name="name" placeholder="Файл">
-                    <span class="input-group-btn">
-                    <button type="submit" class="btn btn-success">Завантажити з файлу</button>
-                </span>
-                </div>
+            <form id="upload-file-form" th:action="@{/upload-from-file}" enctype="multipart/form-data" method="post">
+                <button type="button" class="btn btn-success" onclick="clickFile()">
+                    Завантажити з файлу
+                </button>
+                <input id="upload-file" style="display: none" name="file" type="file">
             </form>
             <hr/>
 
@@ -212,6 +210,24 @@
 <script src="sigma.canvas.edges.labels.curve.js"></script>
 <script src="sigma.canvas.edges.labels.curvedArrow.js"></script>
 <script src="sigma.plugins.dragNodes.min.js"></script>
+
+
+<!--index script-->
+<script th:inline="javascript">
+    //<![CDATA[
+    function clickFile() {
+        $('#upload-file').trigger('click');
+    }
+
+    $(document).ready(function () {
+        $('#upload-file').change(function (evt) {
+            document.getElementById("upload-file-form").submit();
+        });
+    });
+
+    //]]>
+</script>
+
 
 <!--Sigma script-->
 <script th:inline="javascript">

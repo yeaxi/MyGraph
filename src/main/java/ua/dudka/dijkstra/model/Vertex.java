@@ -2,12 +2,14 @@ package ua.dudka.dijkstra.model;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 import ua.dudka.dijkstra.service.RandomGenerator;
 
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString
+@NoArgsConstructor
 public class Vertex {
 
     private final int size = 10;

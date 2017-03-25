@@ -1,4 +1,4 @@
-package service;
+package ua.dudka.dijkstra.service;
 
 import org.junit.Test;
 import ua.dudka.dijkstra.model.Answer;
