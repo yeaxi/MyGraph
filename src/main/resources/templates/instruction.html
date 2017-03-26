@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Інструкція</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+
+
+    <style>
+        img {
+            width: 95%;
+            height: auto;
+        }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="/css/blog.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+<!--navigation-->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" th:href="@{/}">Головна</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a th:href="@{/theory}">Теорія</a></li>
+                <li><a th:href="@{/instruction}">Інструкція</a></li>
+                <li><a th:href="@{/about-developer}">Про розробника</a></li>
+                <li><a th:href="@{/description}">Про програму</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!--end navigation-->
+<div class="container">
+
+    <div class="blog-header">
+        <h1 class="blog-title">Інструкція з використання програми</h1>
+        <p class="lead blog-description">Робота з графом. Робота з алгоритмом</p>
+    </div>
+
+    <div class="row">
+
+        <div class="col-sm-11 blog-main">
+
+            <!--Fill graph-->
+            <div class="blog-post">
+                <h2 class="blog-post-title">Створення графу</h2>
+
+                <p>У програмі наявні засоби для створення графу як заманеться користувачу у рамках
+                    можливостей системи.</p>
+
+                <!--create node-->
+                <h3>Створення вершин</h3>
+                <p>Для створення графу перш за все потрібно додати вершини. Це можна зробити у лівому верхньому кутку
+                    програми.
+                    Для цього потрібно ввести ім'я бажаної вершини та натиснути на кнопку "додати", чи натиснути клавішу
+                    "Enter".
+                    <img src="/img/inst/add-node-show-filled-input.png">
+                </p>
+                <p>
+                    Після чого вершина з вашою назвою з'явиться на екрані у місці для графу.
+                    <img src="/img/inst/add-node-show-added-node.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Назва вершини має бути унікальною. У випадку введеня назви вершини, що вже існує на екрані
+                        з'явиться повідомлення з текстом помилки.
+                        <img src="/img/inst/add-node-show-error.png">
+                    </p>
+                </blockquote>
+                <!--end create node-->
+
+                <!--create edge-->
+                <h3>Створення ребер</h3>
+                <p>Після створення вершин можна перейти до створення ребер. Поля для створення ребер знаходяться одразу
+                    після додавання вершин.
+                    Для створення ребра потрібно ввести ім'я початкової та кінцевої вершин та вагу ребра, після чого
+                    натиснути на кнопку "додати", чи натиснути клавішу "Enter".
+                    <img src="/img/inst/add-edge-show-filled-input.png">
+                </p>
+                <p>
+                    Після чого на екрані з'явиться ребро з номером та вказагою вагою.
+                    <img src="/img/inst/add-edge-show-added-edge.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Якщо вказані початкова чи кінцева вершина не існують - на екрані
+                        з'явиться повідомлення з текстом помилки.
+                        <img src="/img/inst/add-edge-show-error.png">
+                    </p>
+                </blockquote>
+                <!--end create edge-->
+
+                <!-- random fill-->
+                <h3>Випадковий граф</h3>
+                <p>У системі є функція створення графу випадковим чином. Відповідна кнопка знаходиться після додавання
+                    ребер.
+                    <img src="/img/inst/show-random-fill-input.png">
+                </p>
+                <p> Після натиснення на кнопку на екрані з'явиться граф заповнений випадковим чином
+                    <img src="/img/inst/show-random-graph.png">
+                </p>
+                <!--end random fill-->
+
+                <!--fill from file-->
+                <h3>Заповнення з файлу</h3>
+                <p>У системі наявна функція завантаження графу з файлу. Кнопка вибору файлу знаходиться після
+                    випадкового заповнення.
+                    <img src="/img/inst/show-fill-from-file-input.png">
+                </p>
+                <p> Після натиснення на кнопку на екрані з'явиться меню для вибору файла.
+                    <img src="/img/inst/show-fill-from-file-menu.png">
+                </p>
+                <p>
+                    Після вибору файлу на екрані з'явиться завантажений граф.
+                    <img src="/img/inst/show-filled-graph-from-file.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Файл повинен мати структуру, як на картинці.
+                        <img src="/img/inst/show-fill-from-file-structure.png">
+
+                        У випадку, якщо структура файлу не співпадає, чи данні у файлі не коректні - на екрані з'явиться
+                        відповідне повідомлення.
+                        <img src="/img/inst/show-fill-from-file-error.png">
+                    </p>
+                </blockquote>
+                <!--fill from file end-->
+            </div>
+            <!--End fill graph post-->
+
+            <!--Clear graph post-->
+            <div class="blog-post">
+                <h2 class="blog-post-title">Очистка графу</h2>
+                <p>Система передбачає можливість видалення бажаних вершин, ребер, чи очистки графу повністю</p>
+
+                <!--remove node-->
+                <h3>Видалення вершин</h3>
+                <p>Поле для видалення вершини знаходиться після завантаження графу з файлу.
+                    Для видалення вершини потрібно ввести ім'я вершини, після чого
+                    натиснути на кнопку "видалити", чи натиснути клавішу "Enter".
+                    <img src="/img/inst/remove-node-show-filled-input.png">
+                </p>
+                <p>
+                    Після натиснення можна впевнитись у відсутності вершини у графі та зв'язаних з нею ребер.
+                    <img src="/img/inst/show-removed-node.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Якщо вказана вершина не існуює - на екрані
+                        з'явиться повідомлення з текстом помилки.
+                        <img src="/img/inst/remove-node-show-error.png">
+                    </p>
+                </blockquote>
+                <!--end remove node-->
+
+                <!--remove edge-->
+                <h3>Видалення ребра</h3>
+                <p>Поле для видалення ребра знаходиться після видалення вершини.
+                    Для видалення вершини потрібно ввести номер ребра, після чого
+                    натиснути на кнопку "видалити", чи натиснути клавішу "Enter".
+                    <img src="/img/inst/remove-edge-show-filled-input.png">
+                </p>
+                <p>
+                    Після натиснення можна впевнитись у відсутності ребра у графі.
+                    <img src="/img/inst/show-removed-edge.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Якщо вказане ребро не існуює - повідомлення з помилкою не буде, граф залишиться у стані який був
+                        до цього.
+                    </p>
+                </blockquote>
+                <!--end remove edge-->
+
+                <!--clear graph-->
+                <h3>Повна очистка графу</h3>
+                <p>Кнопка для очистки графу знаходиться після видалення ребра.
+                    <img src="/img/inst/clear-graph-input.png">
+                </p>
+                <p> Після натиснення кнопки можна впевнитись у тому, що граф пустий.
+                    <img src="/img/inst/show-empty-graph.png">
+                </p>
+                <!--end remove edge-->
+            </div>
+            <!--End clear graph post-->
+
+            <!--Dijkstra-->
+            <div class="blog-post">
+                <h2 class="blog-post-title">Знаходження шляхів</h2>
+                <p>Основною задачею програми є знаходження найкоротших шляхів у графі</p>
+
+                <!--find path-->
+                <h3>Використання</h3>
+                <p>Для знаходження шляху між бажаними вершинами потрібно ввести початкову та кінцеву вершину у полях та
+                    натиснути на кнопку "Знайти шлях", або натиснути клавішу "Enter".
+                    <img src="/img/inst/show-dijkstra-input.png">
+                </p>
+                <p>Після натиснення на екрані з'явиться шлях між вершинами.
+                    <img src="/img/inst/show-dijkstra-answer.png">
+                </p>
+                <blockquote>
+                    <p>
+                        Якщо вказані початкова чи кінцева вершина не існуює чи шляху між вершинами немає - на екрані
+                        з'явиться повідомлення з текстом помилки.
+                        <img src="/img/inst/show-dijkstra-error.png">
+                    </p>
+                </blockquote>
+                <!--end find path-->
+
+                <!--save answer-->
+                <h3>Збереження результату</h3>
+                <p>У системі є можливість зберегти результат обчислень у файл. Для цього після знаходження відповіді
+                    потрібно натиснути кнопку "Зберегти результат у файл".
+                    <img src="/img/inst/show-save-to-file-button.png">
+                </p>
+                <p>Після натиснення кнопки файл буде доступний у папці "Завантаження"
+                    <img src="/img/inst/show-saved-file.png">
+                </p>
+                <!--end save answer-->
+            </div>
+            <!--End Dijkstra-->
+
+
+        </div><!-- /.blog-main -->
+
+
+    </div><!-- /.row -->
+
+</div><!-- /.container -->
+
+<footer class="blog-footer">
+    <p>Інструкція для курсового проекту</p>
+    <p>
+        <a th:href="@{/instruction}">Повернутись до початку сторінки</a>
+    </p>
+</footer>
+
+
+<!-- Bootstrap core JavaScript
+================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+</body>
+</html>
