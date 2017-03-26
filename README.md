@@ -1,1 +1,0 @@
-![Alt text](/src/main/resources/img/main.png?raw=true)
