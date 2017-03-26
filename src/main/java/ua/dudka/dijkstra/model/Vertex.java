@@ -1,23 +1,25 @@
 package ua.dudka.dijkstra.model;
 
-import lombok.*;
-import ua.dudka.dijkstra.service.MathService;
-
-import java.util.concurrent.ThreadLocalRandom;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+import ua.dudka.dijkstra.service.RandomGenerator;
 
 @Getter
 @EqualsAndHashCode(of = "id")
 @ToString
+@NoArgsConstructor
 public class Vertex {
 
     private final int size = 10;
 
     private static int counter = 0;
-    private int id;
 
+    private int id;
     private String name;
-    private double x = MathService.getRandomX();
-    private double y = MathService.getRandomY();
+    private double x = RandomGenerator.getRandomX();
+    private double y = RandomGenerator.getRandomY();
 
     public Vertex(String name) {
         this.name = name;

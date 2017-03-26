@@ -4,30 +4,29 @@ import ua.dudka.dijkstra.model.Answer;
 import ua.dudka.dijkstra.model.Edge;
 import ua.dudka.dijkstra.model.Graph;
 import ua.dudka.dijkstra.model.Vertex;
+import ua.dudka.dijkstra.service.exception.NodesNotConnectedException;
 
 import java.util.*;
 
 public class DijkstraAlgorithm {
 
-    private final List<Vertex> nodes;
-    private final List<Edge> edges;
-    private final Vertex target;
+    private List<Edge> edges;
+    private Vertex target;
     private Set<Vertex> settledNodes;
     private Set<Vertex> unSettledNodes;
     private Map<Vertex, Vertex> predecessors;
 
     private Map<Vertex, Integer> distance;
 
-    public DijkstraAlgorithm(Graph graph, String source, String target) {
-        // create a copy of the array so that we can operate on this array
-        this.nodes = new ArrayList<>(graph.getNodes());
-        this.edges = new ArrayList<>(graph.getEdges());
-
-        execute(graph.findVertexByName(source));
-        this.target = graph.findVertexByName(target);
+    public DijkstraAlgorithm() {
     }
 
-    private void execute(Vertex source) {
+    public Answer execute(Graph graph, String sourceName, String targetName) {
+        this.edges = new ArrayList<>(graph.getEdges());
+        this.target = graph.findVertexByName(targetName);
+
+        Vertex source = graph.findVertexByName(sourceName);
+
         settledNodes = new HashSet<>();
         unSettledNodes = new HashSet<>();
         distance = new HashMap<>();
@@ -41,6 +40,11 @@ public class DijkstraAlgorithm {
             findMinimalDistances(node);
         }
 
+        Answer answer = new Answer(getShortestDistance(target), getPath());
+        if (answer.path.isEmpty()) {
+            throw new NodesNotConnectedException(sourceName, targetName);
+        }
+        return answer;
     }
 
     private void findMinimalDistances(Vertex node) {
@@ -105,10 +109,6 @@ public class DijkstraAlgorithm {
         }
     }
 
-    /*
-     * This method returns the path from the source to the selected target and
-     * NULL if no path exists
-     */
     private LinkedList<Vertex> getPath() {
         LinkedList<Vertex> path = new LinkedList<>();
         Vertex step = target;
@@ -125,9 +125,5 @@ public class DijkstraAlgorithm {
         // Put it into the correct order
         Collections.reverse(path);
         return path;
-    }
-
-    public Answer getAnswer() {
-        return new Answer(getShortestDistance(target), getPath());
     }
 }

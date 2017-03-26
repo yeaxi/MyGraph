@@ -1,0 +1,31 @@
+{
+	"nodes":[
+		{
+			"name":"A"
+		},
+		{
+			"name":"N"
+		},
+		{
+			"name":"B"
+		}
+		
+		],
+	"edges":[
+		{
+		"start":"A",
+		"end":"B",
+		"weight": 10
+		},
+				{
+		"start":"A",
+		"end":"C",
+		"weight": 5
+		},
+		{
+		"start":"C",
+		"end":"B",
+		"weight": 10
+		}
+		]
+}

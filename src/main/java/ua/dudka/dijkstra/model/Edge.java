@@ -15,6 +15,7 @@ public class Edge {
 
     private final Vertex start, end;
 
+
     public Edge(Vertex start, Vertex end, int weight) {
         this.start = start;
         this.end = end;

@@ -28,9 +28,10 @@
 
     <style type="text/css">
         #graph-container {
-            top: 100pt;
-            height: 450pt;
-            width: 95%;
+            height: 500pt;
+            width: 90%;
+            margin-top: 200pt;
+            margin-left: 140pt;
             position: absolute;
         }
     </style>
@@ -49,11 +50,13 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">Алгоритм Дейкстри</a>
+            <a class="navbar-brand" th:href="@{/}">Головна</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a th:href="@{/help}">Help</a></li>
+                <li><a th:href="@{/help}">Довідка</a></li>
+                <li><a th:href="@{/about-developer}">Про розробника</a></li>
+                <!--<li><a th:href="@{/help}">Help</a></li>-->
             </ul>
         </div>
     </div>
@@ -64,18 +67,18 @@
     <div class="row">
 
         <!--left nav menu-->
-        <div class="col-sm-3 col-md-2 sidebar">
-            <form th:action="@{/nodes/add}" method="post">
+        <div class="col-sm-4 col-md-2 sidebar">
+            <form th:action="@{/add-node}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
                     <span class="input-group-btn">
-                    <button type="submit" class="btn btn-default">Додати вершину</button>
+                    <button type="submit" class="btn btn-success">Додати вершину</button>
                 </span>
                 </div>
             </form>
             <hr/>
 
-            <form th:action="@{/edges/add}" method="post">
+            <form th:action="@{/add-edge}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="start"
                            placeholder="Назва початкової вершини"
@@ -87,12 +90,28 @@
                     <input required="required" type="number" class="form-control" name="weight" placeholder="Вага"
                            aria-describedby="basic-addon1">
 
-                    <button type="submit" class="btn btn-default">Додати ребро</button>
+                    <button type="submit" class="btn btn-success">Додати ребро</button>
                 </div>
             </form>
             <hr/>
 
-            <form th:action="@{/nodes/remove}" method="post">
+            <form th:action="@{/random-fill}" method="post">
+                <div class="input-group">
+                    <button type="submit" class="btn btn-success">Заповнити випадковим чином</button>
+                </div>
+            </form>
+            <hr/>
+
+
+            <form id="upload-file-form" th:action="@{/upload-from-file}" enctype="multipart/form-data" method="post">
+                <button type="button" class="btn btn-success" onclick="clickFile()">
+                    Завантажити з файлу
+                </button>
+                <input id="upload-file" style="display: none" name="file" type="file">
+            </form>
+            <hr/>
+
+            <form th:action="@{/remove-node}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="name" placeholder="Назва">
                     <span class="input-group-btn">
@@ -102,7 +121,7 @@
             </form>
             <hr/>
 
-            <form th:action="@{/edges/remove}" method="post">
+            <form th:action="@{/remove-edge}" method="post">
                 <div class="input-group">
                     <input required="required" type="text" class="form-control" name="id" placeholder="Номер">
                     <span class="input-group-btn">
@@ -121,35 +140,49 @@
         </div>
         <!--end left nav menu-->
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!--Main-->
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main panel panel-default">
+            <div class="panel-body">
 
-            <!--header-->
-            <h1 class="page-header">Введіть задані поля</h1>
-            <!--end header-->
+                <!--Header-->
+                <h1 class="page-header">Введіть задані поля</h1>
+                <!--End header-->
 
-            <!--dijkstra actions-->
-            <div class="row placeholders">
-                <form th:action="@{/dijkstra}" method="post">
-                    <div class="input-group">
-                        <input required="required" type="text" name="start" class="form-control"
-                               placeholder="Назва початкової вершини"
-                               aria-describedby="sizing-addon2">
-                        <input required="required" type="text" name="end" class="form-control"
-                               placeholder="Назва кінцевої вершини"
-                               aria-describedby="sizing-addon2">
-                        <button type="submit" class="btn btn-default">Знайти шлях</button>
+                <!--Dijkstra actions-->
+                <div class="row placeholders">
+                    <div class="col-sm-4 col-md-4">
+                        <form th:action="@{/dijkstra}" method="post">
+                            <div class="panel-body">
+                                <div class="input-group ">
+                                    <input required="required" type="text" name="start" class="form-control"
+                                           placeholder="Назва початкової вершини">
+                                    <input required="required" type="text" name="end" class="form-control"
+                                           placeholder="Назва кінцевої вершини">
+                                    <button type="submit" class="btn btn-primary">Знайти шлях</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
 
-                <div class="answer" th:if="${answer}">
-                    <p>Шлях - [[${answer.pathStr}]]</p>
-                    <p>Відстань - [[${answer.distance}]]</p>
+                    <!--Answer-->
+                    <div class="col-sm-4 col-md-4">
+                        <div class="input-group" th:if="${answer}">
+                            <p class="navbar-text">Шлях - [[${answer.pathStr}]]</p>
+                            <p class="navbar-text">Відстань - [[${answer.distance}]]</p>
+
+                            <form th:action="@{/save-answer-to-file}" method="post">
+                                <button type="submit" class="btn btn-primary">Зберегти результат у файл</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!--End answer-->
                 </div>
-                <p th:if="${error}">Помилка - [[${error}]]</p>
-            </div>
-        </div>
+                <!--End dijkstra actions-->
 
-        <!--end dijkstra actions-->
+                <div class="alert alert-danger" role="alert" th:if="${error}">Помилка - [[${error}]]</div>
+            </div>
+            <!--End main-->
+        </div>
 
         <!--graph-->
         <div id="graph-container"></div>
@@ -175,6 +208,24 @@
 <script src="sigma.canvas.edges.labels.curvedArrow.js"></script>
 <script src="sigma.plugins.dragNodes.min.js"></script>
 
+
+<!--index script-->
+<script th:inline="javascript">
+    //<![CDATA[
+    function clickFile() {
+        $('#upload-file').trigger('click');
+    }
+
+    $(document).ready(function () {
+        $('#upload-file').change(function (evt) {
+            document.getElementById("upload-file-form").submit();
+        });
+    });
+
+    //]]>
+</script>
+
+
 <!--Sigma script-->
 <script th:inline="javascript">
     //<![CDATA[
@@ -197,7 +248,7 @@
 
     dragListener.bind('drop', function (event) {
         let node = event.data.node;
-        post("/nodes/update", {
+        post("/update-node", {
             "name": node.name,
             "x": node.x,
             "y": node.y
